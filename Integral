@@ -1,0 +1,51 @@
+using System;
+
+namespace Integral_TwoVariables
+{
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            _ = new IntegrationOfTwoVariables();
+        }
+    }
+    class Variable
+    {
+        public double fxy;//Function
+        public double dfx, dfy;//delta a
+        public double x, y;//axis
+        public double cos, cos2,sin, sin2;
+        public double ih, ih2;//ih2 is integral value
+    }
+    class IntegrationOfTwoVariables:Variable
+    {
+        public IntegrationOfTwoVariables()
+        {
+            dfx = 1.0e-10;
+            dfy = 1.0e-10;
+            for (y = 0.0; y < 1.0-dfy;)
+            {
+                ih = 0.0;
+                for (x = 0.0; x < 1.0-dfx;)
+                {
+
+                    fxy = Function(x, y);
+                    cos = Math.Sqrt(1.0 / (1.0 + fxy * fxy));
+                    sin = fxy * Math.Sqrt(1.0 / (1.0 + fxy * fxy));
+                    x += dfx * cos;
+                    ih += dfx * sin;
+
+                }
+                cos2 = Math.Sqrt(1.0 / (1.0 + ih * ih));
+                sin2 = ih * Math.Sqrt(1.0 / (1.0 + ih * ih));
+                y += dfy * cos2;
+                ih2 += dfy * sin2;
+                Console.Write("x: {0} y: {1} ih: {2} ih2: {3}\n", x, y, ih, ih2);
+            }
+        }
+        public double Function(double x, double y)
+        {
+            return x*y;
+        }
+    }
+}
